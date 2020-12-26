@@ -109,7 +109,7 @@ namespace Impostor.Server.Net.Inner.Objects
             throw new NotImplementedException();
         }
 
-        public override ValueTask DeserializeAsync(IClientPlayer sender, IClientPlayer? target, IMessageReader reader, bool initialState)
+        public override async ValueTask DeserializeAsync(IClientPlayer sender, IClientPlayer? target, IMessageReader reader, bool initialState)
         {
             if (!sender.IsHost)
             {
@@ -149,7 +149,7 @@ namespace Impostor.Server.Net.Inner.Objects
                 }
             }
 
-            return ValueTask.CompletedTask;
+            return;// ValueTask.CompletedTask;
         }
     }
 }

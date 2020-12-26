@@ -131,7 +131,8 @@ namespace Impostor.Server.Net.Inner.Objects.Components
 
                 if (!SidGreaterThan(sequenceId, _lastSequenceId))
                 {
-                    return default;
+                    //return default;
+                    return;
                 }
 
                 _lastSequenceId = sequenceId;
