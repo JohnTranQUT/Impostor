@@ -236,11 +236,7 @@ namespace Impostor.Server.Net.State
                         var netId = reader.ReadPackedUInt32();
                         if (_allObjectsFast.TryGetValue(netId, out var obj))
                         {
-<<<<<<< HEAD
                             await obj.DeserializeAsync(sender, target, reader, false);
-=======
-                            await obj.Deserialize(sender, target, reader, false);
->>>>>>> Hiumee/feature/host-sent-messages
                         }
                         else
                         {
@@ -331,11 +327,7 @@ namespace Impostor.Server.Net.State
                                 using var readerSub = reader.ReadMessage();
                                 if (readerSub.Length > 0)
                                 {
-<<<<<<< HEAD
                                     await obj.DeserializeAsync(sender, target, readerSub, true);
-=======
-                                    await obj.Deserialize(sender, target, readerSub, true);
->>>>>>> Hiumee/feature/host-sent-messages
                                 }
 
                                 await OnSpawnAsync(obj);

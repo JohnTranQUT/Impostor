@@ -109,11 +109,7 @@ namespace Impostor.Server.Net.Inner.Objects
             throw new NotImplementedException();
         }
 
-<<<<<<< HEAD
         public override ValueTask DeserializeAsync(IClientPlayer sender, IClientPlayer? target, IMessageReader reader, bool initialState)
-=======
-        public override async ValueTask Deserialize(IClientPlayer sender, IClientPlayer? target, IMessageReader reader, bool initialState)
->>>>>>> Hiumee/feature/host-sent-messages
         {
             if (!sender.IsHost)
             {
