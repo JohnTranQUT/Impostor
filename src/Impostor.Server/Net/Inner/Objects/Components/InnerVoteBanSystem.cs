@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Impostor.Api;
@@ -52,7 +52,11 @@ namespace Impostor.Server.Net.Inner.Objects.Components
             throw new NotImplementedException();
         }
 
+<<<<<<< HEAD
         public override ValueTask DeserializeAsync(IClientPlayer sender, IClientPlayer? target, IMessageReader reader, bool initialState)
+=======
+        public override ValueTask Deserialize(IClientPlayer sender, IClientPlayer? target, IMessageReader reader, bool initialState)
+>>>>>>> Hiumee/feature/host-sent-messages
         {
             if (!sender.IsHost)
             {
@@ -84,7 +88,11 @@ namespace Impostor.Server.Net.Inner.Objects.Components
                 }
             }
 
+<<<<<<< HEAD
             return ValueTask.CompletedTask;
+=======
+            return default;
+>>>>>>> Hiumee/feature/host-sent-messages
         }
     }
 }

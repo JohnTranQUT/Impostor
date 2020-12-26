@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using System.Threading.Tasks;
 using Impostor.Api;
 using Impostor.Api.Events.Managers;
@@ -107,7 +107,11 @@ namespace Impostor.Server.Net.Inner.Objects.Components
             return ValueTask.FromResult(true);
         }
 
+<<<<<<< HEAD
         public override async ValueTask DeserializeAsync(IClientPlayer sender, IClientPlayer? target, IMessageReader reader, bool initialState)
+=======
+        public override ValueTask Deserialize(IClientPlayer sender, IClientPlayer? target, IMessageReader reader, bool initialState)
+>>>>>>> Hiumee/feature/host-sent-messages
         {
             var sequenceId = reader.ReadUInt16();
 
@@ -131,13 +135,15 @@ namespace Impostor.Server.Net.Inner.Objects.Components
 
                 if (!SidGreaterThan(sequenceId, _lastSequenceId))
                 {
-                    return;
+                    return default;
                 }
 
                 _lastSequenceId = sequenceId;
                 await SetPositionAsync(sender, ReadVector2(reader));
                 _targetSyncVelocity = ReadVector2(reader);
             }
+
+            return default;
         }
 
         internal async ValueTask SetPositionAsync(IClientPlayer sender, Vector2 position)

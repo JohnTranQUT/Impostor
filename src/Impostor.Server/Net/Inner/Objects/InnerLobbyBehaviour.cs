@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Impostor.Api.Games;
 using Impostor.Api.Net;
 using Impostor.Api.Net.Inner.Objects;
@@ -28,7 +28,11 @@ namespace Impostor.Server.Net.Inner.Objects
             throw new System.NotImplementedException();
         }
 
+<<<<<<< HEAD
         public override ValueTask DeserializeAsync(IClientPlayer sender, IClientPlayer? target, IMessageReader reader, bool initialState)
+=======
+        public override ValueTask Deserialize(IClientPlayer sender, IClientPlayer? target, IMessageReader reader, bool initialState)
+>>>>>>> Hiumee/feature/host-sent-messages
         {
             throw new System.NotImplementedException();
         }

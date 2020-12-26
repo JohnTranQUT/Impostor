@@ -1,25 +1,25 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Impostor.Api.Events.Managers;
-using Impostor.Api.Games;
 using Impostor.Api.Net.Messages;
+using Impostor.Server.Net.State;
 
 namespace Impostor.Server.Net.Inner.Objects.Systems.ShipStatus
 {
-    public class MedScanSystem : ISystemType
+    internal partial class SabotageSystem : ISystemType
     {
-        private readonly IEventManager _eventManager;
-        private readonly IGame _game;
+        private readonly IActivatable[] _specials;
 
-        public MedScanSystem(IEventManager eventManager, IGame game)
+        private readonly IEventManager _eventManager;
+        private readonly Game _game;
+
+        public SabotageSystem(IActivatable[] specials, IEventManager eventManager, Game game)
         {
+            _specials = specials;
             _eventManager = eventManager;
             _game = game;
-
-            UsersList = new List<byte>();
         }
 
-        public List<byte> UsersList { get; }
+        public float Timer { get; set; }
 
         public void Serialize(IMessageWriter writer, bool initialState)
         {
@@ -28,14 +28,7 @@ namespace Impostor.Server.Net.Inner.Objects.Systems.ShipStatus
 
         public ValueTask Deserialize(IMessageReader reader, bool initialState)
         {
-            UsersList.Clear();
-
-            var num = reader.ReadPackedInt32();
-
-            for (var i = 0; i < num; i++)
-            {
-                UsersList.Add(reader.ReadByte());
-            }
+            Timer = reader.ReadSingle();
 
             return default;
         }

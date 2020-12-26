@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Impostor.Api.Events.Managers;
 using Impostor.Api.Games;
 using Impostor.Api.Innersloth;
 using Impostor.Api.Net.Messages;
@@ -8,10 +10,11 @@ namespace Impostor.Server.Net.Inner.Objects.Systems.ShipStatus
 {
     public class DoorsSystemType : ISystemType
     {
-        // TODO: AutoDoors
+        private readonly IEventManager _eventManager;
+        private readonly IGame _game;
         private readonly Dictionary<int, bool> _doors;
 
-        public DoorsSystemType(IGame game)
+        public DoorsSystemType(IEventManager _eventManager, IGame game)
         {
             var doorCount = game.Options.Map switch
             {
@@ -34,7 +37,7 @@ namespace Impostor.Server.Net.Inner.Objects.Systems.ShipStatus
             throw new NotImplementedException();
         }
 
-        public void Deserialize(IMessageReader reader, bool initialState)
+        public ValueTask Deserialize(IMessageReader reader, bool initialState)
         {
             if (initialState)
             {
@@ -55,6 +58,8 @@ namespace Impostor.Server.Net.Inner.Objects.Systems.ShipStatus
                     }
                 }
             }
+
+            return default;
         }
     }
 }

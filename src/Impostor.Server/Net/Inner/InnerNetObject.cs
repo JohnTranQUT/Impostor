@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Impostor.Api.Net;
 using Impostor.Api.Net.Inner;
 using Impostor.Api.Net.Messages;
@@ -20,7 +20,11 @@ namespace Impostor.Server.Net.Inner
 
         public abstract ValueTask<bool> SerializeAsync(IMessageWriter writer, bool initialState);
 
+<<<<<<< HEAD
         public abstract ValueTask DeserializeAsync(IClientPlayer sender, IClientPlayer? target, IMessageReader reader, bool initialState);
+=======
+        public abstract ValueTask Deserialize(IClientPlayer sender, IClientPlayer? target, IMessageReader reader, bool initialState);
+>>>>>>> Hiumee/feature/host-sent-messages
 
         public bool IsOwnedBy(IClientPlayer player)
         {
