@@ -102,5 +102,11 @@ namespace Impostor.Plugins.Example.Handlers
         {
             _logger.LogDebug($"Player moved to {e.PlayerControl.NetworkTransform.Position}");
         }
+
+        [EventListener]
+        public void OnPlayerVoted(IPlayerVotedEvent e)
+        {
+            _logger.LogDebug($"Player {e.PlayerControl.PlayerInfo.PlayerName} voted for {e.VoteType} {e.VotedFor?.PlayerInfo.PlayerName}");
+        }
     }
 }
