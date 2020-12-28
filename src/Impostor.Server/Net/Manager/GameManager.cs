@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,7 +74,7 @@ namespace Impostor.Server.Net.Manager
             }
 
             await _nodeLocator.SaveAsync(gameCodeStr, _publicIp);
-            _logger.LogDebug("Created game with code {0}.", game.Code);
+            /*_logger.LogDebug("Created game with code {0}.", game.Code);*/
 
             await _eventManager.CallAsync(new GameCreatedEvent(game));
 
@@ -141,7 +141,7 @@ namespace Impostor.Server.Net.Manager
                 return;
             }
 
-            _logger.LogDebug("Remove game with code {0} ({1}).", GameCodeParser.IntToGameName(gameCode), gameCode);
+            /*_logger.LogDebug("Remove game with code {0} ({1}).", GameCodeParser.IntToGameName(gameCode), gameCode);*/
             await _nodeLocator.RemoveAsync(GameCodeParser.IntToGameName(gameCode));
 
             await _eventManager.CallAsync(new GameDestroyedEvent(game));

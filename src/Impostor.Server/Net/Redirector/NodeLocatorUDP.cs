@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
@@ -52,7 +52,7 @@ namespace Impostor.Server.Net.Redirector
 
         public void Update(IPEndPoint ip, string gameCode)
         {
-            _logger.LogDebug("Received update {0} -> {1}", gameCode, ip);
+            /*_logger.LogDebug("Received update {0} -> {1}", gameCode, ip);*/
 
             _availableNodes.AddOrUpdate(
                 gameCode,
