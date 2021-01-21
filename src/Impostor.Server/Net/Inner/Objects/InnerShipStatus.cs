@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Impostor.Api;
+using Impostor.Api.Events.Managers;
 using Impostor.Api.Innersloth;
 using Impostor.Api.Net;
 using Impostor.Api.Net.Inner.Objects;
+using Impostor.Api.Net.Inner.Objects.ShipSystems;
 using Impostor.Api.Net.Messages;
 using Impostor.Server.Net.Inner.Objects.Systems;
 using Impostor.Server.Net.Inner.Objects.Systems.ShipStatus;
@@ -13,35 +15,42 @@ using Microsoft.Extensions.Logging;
 
 namespace Impostor.Server.Net.Inner.Objects
 {
-    internal class InnerShipStatus : InnerNetObject, IInnerShipStatus
+    internal partial class InnerShipStatus : InnerNetObject
     {
         private readonly ILogger<InnerShipStatus> _logger;
+        private readonly IEventManager _eventManager;
         private readonly Game _game;
         private readonly Dictionary<SystemTypes, ISystemType> _systems;
 
-        public InnerShipStatus(ILogger<InnerShipStatus> logger, Game game)
+        public InnerShipStatus(ILogger<InnerShipStatus> logger, IServiceProvider serviceProvider, IEventManager eventManager, Game game)
         {
             _logger = logger;
+            _eventManager = eventManager;
             _game = game;
 
             _systems = new Dictionary<SystemTypes, ISystemType>
             {
-                [SystemTypes.Electrical] = new SwitchSystem(),
-                [SystemTypes.MedBay] = new MedScanSystem(),
-                [SystemTypes.Reactor] = new ReactorSystemType(),
-                [SystemTypes.LifeSupp] = new LifeSuppSystemType(),
-                [SystemTypes.Security] = new SecurityCameraSystemType(),
-                [SystemTypes.Comms] = new HudOverrideSystemType(),
-                [SystemTypes.Doors] = new DoorsSystemType(_game),
+                [SystemTypes.Electrical] = new SwitchSystem(_eventManager, _game),
+                [SystemTypes.MedBay] = new MedScanSystem(_eventManager, _game),
+                [SystemTypes.Reactor] = new ReactorSystem(_eventManager, _game),
+                [SystemTypes.LifeSupp] = new LifeSuppSystemType(_eventManager, _game),
+                [SystemTypes.Security] = new SecurityCameraSystem(_eventManager, _game),
+                [SystemTypes.Comms] = new HudOverrideSystem(_eventManager, _game),
+                [SystemTypes.Doors] = new DoorsSystemType(_eventManager, _game),
             };
 
-            _systems.Add(SystemTypes.Sabotage, new SabotageSystemType(new[]
+            _systems.Add(SystemTypes.Laboratory, _systems[SystemTypes.Reactor]); // alias for Polus
+
+            _systems.Add(SystemTypes.Sabotage, new SabotageSystem(
+                new[]
             {
                 (IActivatable)_systems[SystemTypes.Comms],
                 (IActivatable)_systems[SystemTypes.Reactor],
                 (IActivatable)_systems[SystemTypes.LifeSupp],
                 (IActivatable)_systems[SystemTypes.Electrical],
-            }));
+                (IActivatable)_systems[SystemTypes.Laboratory],
+            }, _eventManager,
+                _game));
 
             Components.Add(this);
         }
@@ -122,7 +131,7 @@ namespace Impostor.Server.Net.Inner.Objects
                 {
                     if (_systems.TryGetValue(systemType, out var system))
                     {
-                        system.Deserialize(reader, true);
+                        await system.Deserialize(reader, true);
                     }
                 }
             }
@@ -137,7 +146,7 @@ namespace Impostor.Server.Net.Inner.Objects
                     {
                         if (_systems.TryGetValue(systemType, out var system))
                         {
-                            system.Deserialize(reader, false);
+                            await system.Deserialize(reader, false);
                         }
                     }
                 }

@@ -146,8 +146,6 @@ namespace Impostor.Server.Net.Inner.Objects
             {
                 throw new NotImplementedException("This shouldn't happen, according to Among Us disassembly.");
             }
-
-            return ValueTask.CompletedTask;
         }
 
         internal void AddPlayer(InnerPlayerControl control)

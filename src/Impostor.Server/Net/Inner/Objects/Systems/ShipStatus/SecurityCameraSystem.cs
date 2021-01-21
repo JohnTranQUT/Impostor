@@ -1,25 +1,23 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Impostor.Api.Events.Managers;
 using Impostor.Api.Games;
 using Impostor.Api.Net.Messages;
+using Impostor.Server.Net.State;
 
 namespace Impostor.Server.Net.Inner.Objects.Systems.ShipStatus
 {
-    public class MedScanSystem : ISystemType
+    public class SecurityCameraSystem : ISystemType
     {
         private readonly IEventManager _eventManager;
         private readonly IGame _game;
 
-        public MedScanSystem(IEventManager eventManager, IGame game)
+        public SecurityCameraSystem(IEventManager eventManager, IGame game)
         {
-            _eventManager = eventManager;
             _game = game;
-
-            UsersList = new List<byte>();
+            _eventManager = eventManager;
         }
 
-        public List<byte> UsersList { get; }
+        public byte InUse { get; internal set; }
 
         public void Serialize(IMessageWriter writer, bool initialState)
         {
@@ -28,14 +26,7 @@ namespace Impostor.Server.Net.Inner.Objects.Systems.ShipStatus
 
         public ValueTask Deserialize(IMessageReader reader, bool initialState)
         {
-            UsersList.Clear();
-
-            var num = reader.ReadPackedInt32();
-
-            for (var i = 0; i < num; i++)
-            {
-                UsersList.Add(reader.ReadByte());
-            }
+            InUse = reader.ReadByte();
 
             return default;
         }
