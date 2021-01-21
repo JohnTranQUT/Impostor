@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Impostor.Api;
@@ -48,7 +48,7 @@ namespace Impostor.Server.Net.Inner.Objects
                 .ToArray();
         }
 
-        public override async ValueTask HandleRpc(ClientPlayer sender, ClientPlayer? target, RpcCalls call, IMessageReader reader)
+        public override async ValueTask HandleRpc(ClientPlayer sender, ClientPlayer? target, RpcCalls call, IMessageReader reader, Action<bool> cancelEvent)
         {
             switch (call)
             {
