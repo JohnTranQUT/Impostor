@@ -156,10 +156,10 @@ namespace Impostor.Server.Net.State
                                 continue;
                             }
 
-                            _logger.LogDebug(
+                            /*_logger.LogDebug(
                                 "Spawning {0} components, SpawnFlags {1}",
                                 innerNetObject.GetType().Name,
-                                innerNetObject.SpawnFlags);
+                                innerNetObject.SpawnFlags);*/
 
                             for (var i = 0; i < componentsCount; i++)
                             {
@@ -168,11 +168,11 @@ namespace Impostor.Server.Net.State
                                 obj.NetId = reader.ReadPackedUInt32();
                                 obj.OwnerId = ownerClientId;
 
-                                _logger.LogDebug(
+                                /*_logger.LogDebug(
                                     "- {0}, NetId {1}, OwnerId {2}",
                                     obj.GetType().Name,
                                     obj.NetId,
-                                    obj.OwnerId);
+                                    obj.OwnerId);*/
 
                                 if (!AddNetObject(obj))
                                 {
@@ -216,15 +216,16 @@ namespace Impostor.Server.Net.State
 
                             RemoveNetObject(obj);
                             await OnDestroyAsync(obj);
-                            _logger.LogDebug("Destroyed InnerNetObject {0} ({1}), OwnerId {2}", obj.GetType().Name, netId, obj.OwnerId);
+
+                            // _logger.LogDebug("Destroyed InnerNetObject {0} ({1}), OwnerId {2}", obj.GetType().Name, netId, obj.OwnerId);
                         }
                         else
                         {
-                            _logger.LogDebug(
+                            /*_logger.LogDebug(
                                 "Player {0} ({1}) sent DespawnFlag for unregistered NetId {2}.",
                                 sender.Client.Name,
                                 sender.Client.Id,
-                                netId);
+                                netId);*/
                         }
 
                         break;
