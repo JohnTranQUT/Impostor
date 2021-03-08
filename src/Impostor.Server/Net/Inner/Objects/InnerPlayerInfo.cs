@@ -58,20 +58,48 @@ namespace Impostor.Server.Net.Inner.Objects
 
         public void Deserialize(IMessageReader reader)
         {
-            PlayerName = reader.ReadString();
-            Color = (ColorType)reader.ReadByte();
-            Hat = (HatType)reader.ReadPackedUInt32();
-            Pet = (PetType)reader.ReadPackedUInt32();
-            Skin = (SkinType)reader.ReadPackedUInt32();
-            var flag = reader.ReadByte();
-            Disconnected = (flag & 1) > 0;
-            IsImpostor = (flag & 2) > 0;
-            IsDead = (flag & 4) > 0;
-            var taskCount = reader.ReadByte();
-            for (var i = 0; i < taskCount; i++)
+            string playerName;
+            ColorType colorId;
+            HatType hatId;
+            PetType petId;
+            SkinType skinId;
+            byte f_flag;
+            byte t_taskCount;
+            try
             {
-                Tasks[i] ??= new InnerGameData.TaskInfo();
-                Tasks[i].Deserialize(reader);
+                playerName = reader.ReadString();
+                colorId = (ColorType)reader.ReadByte();
+                hatId = (HatType)reader.ReadPackedUInt32();
+                petId = (PetType)reader.ReadPackedUInt32();
+                skinId = (SkinType)reader.ReadPackedUInt32();
+                f_flag = reader.ReadByte();
+                t_taskCount = reader.ReadByte();
+
+                PlayerName = playerName;
+                Color = colorId;
+                Hat = hatId;
+                Pet = petId;
+                Skin = skinId;
+                var flag = f_flag;
+                Disconnected = (flag & 1) > 0;
+                IsImpostor = (flag & 2) > 0;
+                IsDead = (flag & 4) > 0;
+                var taskCount = t_taskCount;
+                for (var i = 0; i < taskCount; i++)
+                {
+                    if (Controller != null)
+                    {
+                        Tasks[i] ??= new InnerGameData.TaskInfo();
+                    }
+
+                    Tasks[i].Deserialize(reader);
+                }
+            }
+            catch (NullReferenceException)
+            {
+            }
+            catch (IndexOutOfRangeException)
+            {
             }
         }
     }
