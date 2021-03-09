@@ -29,7 +29,7 @@ namespace Impostor.Patcher.WinForms.Forms
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
 
-            comboIp.Text = string.Empty;
+            comboIp.Text = "RankedAmongUs NA";
             comboIp.Focus();
 
             comboIp.Enabled = true;
@@ -38,7 +38,7 @@ namespace Impostor.Patcher.WinForms.Forms
 
         private void ModifierOnSaved(object sender, SavedEventArgs e)
         {
-            MessageBox.Show("The IP Address was saved, please (re)start Among Us.", "Success",
+            MessageBox.Show("The region server settings have been saved\nPlease (re)start Among Us.", "Success",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
 
@@ -46,26 +46,26 @@ namespace Impostor.Patcher.WinForms.Forms
                 ? e.IpAddress
                 : $"{e.IpAddress}:{e.Port}";
 
-            comboIp.Text = ipText;
-            comboIp.Enabled = true;
             buttonLaunch.Enabled = true;
 
             _config.AddIp(ipText);
             _config.Save();
 
-            RefreshComboIps();
+            /*RefreshComboIps();*/
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            _config.Load();
+            /*_config.Load();
 
             RefreshComboIps();
 
             if (_modifier.TryLoadIp(out var ipAddress))
             {
                 comboIp.Text = ipAddress;
-            }
+            }*/
+
+            comboIp.Text = "RankedAmongUs NA";
         }
 
         private void FrmMain_Shown(object sender, EventArgs e)
@@ -87,10 +87,10 @@ namespace Impostor.Patcher.WinForms.Forms
 
         private async void buttonLaunch_Click(object sender, EventArgs e)
         {
-            comboIp.Enabled = false;
-            buttonLaunch.Enabled = false;
+            comboIp.Enabled = true;
+            buttonLaunch.Enabled = true;
 
-            await _modifier.SaveIpAsync(comboIp.Text);
+            await _modifier.SaveIpAsync(comboIp.Text == "RankedAmongUs FR" ? "fr1.rankedamongus.com:22028" : comboIp.Text == "RankedAmongUs ASIA" ? "as1.rankedamongus.com" : comboIp.Text == "RankedAmongUs EU" ? "eu1.rankedamongus.com": "na1.rankedamongus.com");
         }
 
         private void lblUrl_Click(object sender, EventArgs e)
