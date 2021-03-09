@@ -1,4 +1,4 @@
-﻿namespace Impostor.Patcher.WinForms.Forms
+namespace Impostor.Patcher.WinForms.Forms
 {
     partial class FrmMain
     {
@@ -44,9 +44,9 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(28, 139);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 13);
+            this.label1.Size = new System.Drawing.Size(48, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "IP Address";
+            this.label1.Text = "REGION";
             // 
             // label2
             // 
@@ -56,14 +56,14 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(225, 91);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Welcome to Impostor\r\n\r\nPlease enter in the IP Address of the \r\nserver you would l" +
-    "ike to use for Among Us\r\n\r\nIf you want to stop playing on the server, \r\nsimply s" +
-    "elect another region";
+            this.label2.Text = "Welcome to RankedAmongUs,\r\nRankedAmongUs Server and Patcher \r\nwas made from the Impostor Develop Team\r\n\r\nTap save" +
+    " to apply the settings.\r\n\r\nIf you want to stop playing on the server, \r\nsimply s" +
+    "elect another region or exit the game.\r\n";
             // 
             // buttonLaunch
             // 
             this.buttonLaunch.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonLaunch.Location = new System.Drawing.Point(179, 155);
+            this.buttonLaunch.Location = new System.Drawing.Point(98, 182);
             this.buttonLaunch.Name = "buttonLaunch";
             this.buttonLaunch.Size = new System.Drawing.Size(74, 22);
             this.buttonLaunch.TabIndex = 3;
@@ -96,11 +96,18 @@
             // 
             // comboIp
             // 
+            this.comboIp.BackColor = System.Drawing.SystemColors.Window;
+            this.comboIp.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboIp.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboIp.FormattingEnabled = true;
-            this.comboIp.Location = new System.Drawing.Point(31, 155);
+            this.comboIp.Items.AddRange(new object[] {
+            "RankedAmongUs NA",
+            "RankedAmongUs EU",
+            "RankedAmongUs ASIA",
+            "RankedAmongUs FR"});
+            this.comboIp.Location = new System.Drawing.Point(57, 155);
             this.comboIp.Name = "comboIp";
-            this.comboIp.Size = new System.Drawing.Size(141, 21);
+            this.comboIp.Size = new System.Drawing.Size(167, 21);
             this.comboIp.TabIndex = 2;
             this.comboIp.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textIp_KeyDown);
             // 
