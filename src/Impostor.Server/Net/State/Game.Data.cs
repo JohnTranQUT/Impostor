@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Impostor.Api;
+using Impostor.Api.Innersloth;
 using Impostor.Api.Net.Inner;
 using Impostor.Api.Net.Messages;
 using Impostor.Api.Unity;
@@ -389,6 +390,11 @@ namespace Impostor.Server.Net.State
 
                 case InnerPlayerControl control:
                 {
+                    if (GameState != GameStates.Started)
+                    {
+                        GameNet.GameData?.RemovePlayer(control);
+                    }
+
                     // Remove InnerPlayerControl <-> IClientPlayer.
                     if (TryGetPlayer(control.OwnerId, out var player))
                     {
