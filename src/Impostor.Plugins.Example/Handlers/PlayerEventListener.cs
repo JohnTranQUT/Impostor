@@ -111,5 +111,11 @@ namespace Impostor.Plugins.Example.Handlers
         {
             _logger.LogInformation("Player {player} vented to {vent}", e.PlayerControl.PlayerInfo.PlayerName, e.NewVent.Name);
         }
+
+        [EventListener]
+        public void OnPlayerVoted(IPlayerVotedEvent e)
+        {
+            _logger.LogDebug($"Player {e.PlayerControl.PlayerInfo.PlayerName} voted for {e.VoteType} {e.VotedFor?.PlayerInfo.PlayerName}");
+        }
     }
 }
