@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Numerics;
 using System.Threading.Tasks;
+using Impostor.Api;
 using Impostor.Api.Events;
 using Impostor.Api.Events.Player;
 using Impostor.Api.Innersloth.Customization;
@@ -84,6 +85,11 @@ namespace Impostor.Plugins.Example.Handlers
                 await e.PlayerControl.NetworkTransform.SnapToAsync(new Vector2(1, 1));
             }
 
+            if (e.Message == "taskcomplete")
+            {
+                await e.PlayerControl.SetAllTasksCompleteAsync();
+            }
+
             await e.PlayerControl.SetNameAsync(e.Message);
             await e.PlayerControl.SendChatAsync(e.Message);
         }
@@ -116,6 +122,12 @@ namespace Impostor.Plugins.Example.Handlers
         public void OnPlayerVoted(IPlayerVotedEvent e)
         {
             _logger.LogDebug($"Player {e.PlayerControl.PlayerInfo.PlayerName} voted for {e.VoteType} {e.VotedFor?.PlayerInfo.PlayerName}");
+        }
+
+        [EventListener]
+        public void OnPlayerCompletedTask(IPlayerCompletedTaskEvent e)
+        {
+            _logger.LogDebug($"Player {e.PlayerControl.PlayerInfo.PlayerName} completed a task, Task: {e.Task.Type} of {e.Task.Type.GetCategory()}");
         }
     }
 }
