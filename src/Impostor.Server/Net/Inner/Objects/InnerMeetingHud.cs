@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Impostor.Api;
 using Impostor.Api.Events.Managers;
+using Impostor.Api.Events.Player;
 using Impostor.Api.Innersloth;
 using Impostor.Api.Net;
 using Impostor.Api.Net.Inner;
@@ -70,6 +71,7 @@ namespace Impostor.Server.Net.Inner.Objects
                     if ((num & 1 << i) != 0)
                     {
                         _playerStates[i].Deserialize(reader);
+                        await HandleVote(_playerStates[i]);
                     }
                 }
             }
@@ -129,6 +131,7 @@ namespace Impostor.Server.Net.Inner.Objects
         private void PopulateButtons(byte reporter)
         {
             _playerStates = Game.GameNet.GameData!.Players
+                .OrderBy(x => x.Value.Controller?.NetId) // The host player hold MeetingHud players list sorted by NetId
                 .Select(x =>
                 {
                     var area = new PlayerVoteArea(this, x.Key);
@@ -136,6 +139,37 @@ namespace Impostor.Server.Net.Inner.Objects
                     return area;
                 })
                 .ToArray();
+        }
+
+        private async ValueTask HandleVote(PlayerVoteArea playerState)
+        {
+            if (playerState.DidVote && !playerState.IsDead)
+            {
+                var player = Game.GameNet.GameData!.GetPlayerById(playerState.TargetPlayerId);
+                if (player != null)
+                {
+                    VoteType voteType;
+                    InnerPlayerControl? votedForPlayer = null;
+
+                    switch ((VoteType)playerState.VotedFor)
+                    {
+                        case VoteType.Skip:
+                            voteType = VoteType.Skip;
+                            break;
+
+                        case VoteType.None:
+                            voteType = VoteType.None;
+                            break;
+
+                        default:
+                            voteType = VoteType.Player;
+                            votedForPlayer = Game.GameNet.GameData.GetPlayerById((byte)playerState.VotedFor)?.Controller;
+                            break;
+                    }
+
+                    await _eventManager.CallAsync(new PlayerVotedEvent(Game, Game.GetClientPlayer(player.Controller!.OwnerId)!, player.Controller, voteType, votedForPlayer));
+                }
+            }
         }
 
         private async ValueTask HandleVotingComplete(ClientPlayer sender, ReadOnlyMemory<byte> states, byte playerId, bool tie)
