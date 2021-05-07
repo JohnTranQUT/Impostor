@@ -29,7 +29,7 @@ namespace Impostor.Patcher.WinForms.Forms
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
 
-            comboIp.Text = "RankedAmongUs NA";
+            comboIp.Text = "RankedAmongUs FR";
             comboIp.Focus();
 
             comboIp.Enabled = true;
@@ -65,7 +65,7 @@ namespace Impostor.Patcher.WinForms.Forms
                 comboIp.Text = ipAddress;
             }*/
 
-            comboIp.Text = "RankedAmongUs NA";
+            comboIp.Text = "RankedAmongUs FR";
         }
 
         private void FrmMain_Shown(object sender, EventArgs e)
